@@ -1,4 +1,4 @@
-package ar.edu.itba.tp1.pod.ej5.ej1;
+package ar.edu.itba.tp1.pod.ej5.ej2;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,17 +1,26 @@
-package ar.edu.itba.tp1.pod.ej1.c;
+package ar.edu.itba.tp1.pod.ej5.ej1;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import ar.edu.itba.tp1.pod.ej1.RunnableImplementation;
 import ar.edu.itba.tp1.pod.ej1.RunnableImplementationFactory;
-import ar.edu.itba.tp1.pod.ej1.ThreadExecutor;
 import ar.edu.itba.tp1.pod.ej1.ThreadSubclass;
 import ar.edu.itba.tp1.pod.ej1.ThreadSubclassFactory;
 
-public class Main_c {
+public class Main_1_c {
 	public static void main(String[] args) {
-		ThreadSubclass[] threadSubclasses = ThreadSubclassFactory
+		if (args.length != 1) {
+			System.out
+					.println("Amount of threads needed! Run configurations in eclipse and specify the amount of threads");
+			return;
+		}
+		int thread_amount = Integer.parseInt(args[0]);
+		ThreadSubclass[] thread_subclasses = ThreadSubclassFactory
 				.sysoThreadArray(6);
-		ThreadExecutor.execute(threadSubclasses,
-				"Thread subclasses executing...", "Thread subclasses done...");
+		ExecutorService es = Executors.newFixedThreadPool(thread_amount);
+		for (Thread thread : thread_subclasses)
+			es.execute(thread);
 		Thread[] threads = new Thread[6];
 		RunnableImplementation[] runnableImplementations = RunnableImplementationFactory
 				.sysoThreadArray(6);
@@ -19,8 +28,8 @@ public class Main_c {
 			threads[i] = new Thread(runnableImplementations[i]);
 		System.out
 				.println("------------------------\nRunnableImplementation executing...");
-		ThreadExecutor.execute(threads,
-				"RunnableImplementation THREADS executing",
-				"RunnableImplementation THREADS done...");
+
+		for (Thread thread : threads)
+			es.execute(thread);
 	}
 }

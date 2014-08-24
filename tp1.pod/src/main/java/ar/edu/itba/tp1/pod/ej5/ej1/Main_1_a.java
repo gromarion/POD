@@ -1,9 +1,11 @@
-package ar.edu.itba.tp1.pod.ej1.a;
+package ar.edu.itba.tp1.pod.ej5.ej1;
 
-import ar.edu.itba.tp1.pod.ej1.ThreadExecutor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import ar.edu.itba.tp1.pod.ej1.ThreadFactory;
 
-public class Main_a {
+public class Main_1_a {
 	public static void main(String[] args) {
 		if (args.length != 1) {
 			System.out
@@ -11,7 +13,9 @@ public class Main_a {
 			return;
 		}
 		int thread_amount = Integer.parseInt(args[0]);
+		ExecutorService es = Executors.newFixedThreadPool(thread_amount);
 		Thread[] threads = ThreadFactory.sysoThreadArray(thread_amount);
-		ThreadExecutor.execute(threads, "-START-", "-END-");
+		for (Thread thread : threads)
+			es.execute(thread);
 	}
 }

@@ -1,44 +1,36 @@
 package ar.edu.itba.tp1.pod.ej4.a;
 
 public class Main_a {
-	public static Object Lock1 = new Object();
-	public static Object Lock2 = new Object();
+	public static Object first_lock = new Object();
+	public static Object second_lock = new Object();
 
 	public static void main(String args[]) {
-
-		ThreadDemo1 T1 = new ThreadDemo1();
-		ThreadDemo2 T2 = new ThreadDemo2();
+		FirstThread T1 = new FirstThread();
+		SecondThread T2 = new SecondThread();
 		T1.start();
 		T2.start();
 	}
 
-	private static class ThreadDemo1 extends Thread {
+	private static class FirstThread extends Thread {
 		public void run() {
-			synchronized (Lock1) {
-				System.out.println("Thread 1: Holding lock 1...");
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-				}
-				System.out.println("Thread 1: Waiting for lock 2...");
-				synchronized (Lock2) {
-					System.out.println("Thread 1: Holding lock 1 & 2...");
+			synchronized (first_lock) {
+				System.out.println("First thread is holding lock 1...");
+				System.out.println("First thread is waiting for lock 2...");
+				synchronized (second_lock) {
+					System.out.println("First thread is holding lock 1 & 2...");
 				}
 			}
 		}
 	}
 
-	private static class ThreadDemo2 extends Thread {
+	private static class SecondThread extends Thread {
 		public void run() {
-			synchronized (Lock2) {
-				System.out.println("Thread 2: Holding lock 2...");
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-				}
-				System.out.println("Thread 2: Waiting for lock 1...");
-				synchronized (Lock1) {
-					System.out.println("Thread 2: Holding lock 1 & 2...");
+			synchronized (second_lock) {
+				System.out.println("Second thread is holding lock 1...");
+				System.out.println("Second thread is waiting for lock 2...");
+				synchronized (first_lock) {
+					System.out
+							.println("Second thread is holding lock 1 & 2...");
 				}
 			}
 		}
